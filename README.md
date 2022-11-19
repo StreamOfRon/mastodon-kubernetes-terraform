@@ -51,7 +51,7 @@ From here, you can follow the remainder of the instructions at https://docs.join
 
 Most of the interesting scalability options documented at https://docs.joinmastodon.org/admin/scaling/ are exposed via locals in main.tf
 
-The one you'll likely want to tweak before any others is the sidekiq threads. Sidekiq runs all of the background operations for Mastodon and the queues can get backed up once you have more than a small number of users.  Check your queues at https://macaw.social/sidekiq/queues and if you see they don't ever seem to catch up, increase the thread and/or replica counts.  This deployment already does the work of splitting out all of the workers on a per-queue basis so you don't have to worry about that task :)
+The one you'll likely want to tweak before any others is the sidekiq threads. Sidekiq runs all of the background operations for Mastodon and the queues can get backed up once you have more than a small number of users.  Check your queues at https://*your domain here*/sidekiq/queues and if you see they don't ever seem to catch up, increase the thread and/or replica counts.  This deployment already does the work of splitting out all of the workers on a per-queue basis so you don't have to worry about that task :)
 
 ### Replicas vs. Threads
 
