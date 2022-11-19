@@ -4,6 +4,8 @@ Yep, the repo name is buzzword soup, but this is based on the code used to set u
 
 ***This is provided as-is with no warranties whatsoever.  You should be at least somewhat comfortable/familiar with the technologies involved***
 
+If this helps you, consider supporting https://macaw.social by using our [DigitalOcean referral link](https://m.do.co/c/4c16aca034d2) to sign up for their services
+
 ## Prerequisites
 
 - A working kubernetes cluster with at least 2GB usable RAM with:
