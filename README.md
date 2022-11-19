@@ -1,6 +1,8 @@
 # mastodon-kubernetes-terraform
 
-Yep, the repo name is buzzword soup, but this is based on the code used to set up and maintain macaw.social
+Yep, the repo name is buzzword soup, but this is based on the code used to set up and maintain macaw.social.  I wanted to publish this in case it helps others get started with expanding the fediverse.
+
+***This is provided as-is with no warranties whatsoever.  You should be at least somewhat comfortable/familiar with the technologies involved***
 
 ## Prerequisites
 
