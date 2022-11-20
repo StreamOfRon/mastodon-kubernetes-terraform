@@ -183,7 +183,7 @@ resource "kubernetes_secret" "mastodon-secrets" {
   }
 }
 
-resource "kubernetes_deployment" "mastodon-nginx" {
+resource "kubernetes_stateful_set" "mastodon-nginx" {
   metadata {
     name      = "mastodon-nginx"
     namespace = kubernetes_namespace.kube-namespace.metadata[0].name
@@ -204,9 +204,7 @@ resource "kubernetes_deployment" "mastodon-nginx" {
         app = "mastodon-nginx"
       }
     }
-    strategy {
-      type = "RollingUpdate"
-    }
+    service_name = "mastodon-nginx"
 
     template {
       metadata {
@@ -215,6 +213,25 @@ resource "kubernetes_deployment" "mastodon-nginx" {
         }
       }
       spec {
+
+        init_container {
+          security_context {
+            run_as_user = 0
+            run_as_group = 0
+          }
+          image = local.mastodon_image_identifier
+          image_pull_policy = "IfNotPresent"
+          name = "copy-public-files"
+          command = ["bash"]
+          args = [
+              "-c",
+              "rm -rf /var/www/html/* ; cp -Rp /mastodon/public/* /var/www/html/"
+          ]
+          volume_mount {
+            name = "nginx-storage"
+            mount_path = "/var/www/html"
+          }
+        }
         container {
           name  = "nginx"
           image = "nginx:alpine"
@@ -222,6 +239,10 @@ resource "kubernetes_deployment" "mastodon-nginx" {
             name       = "nginx"
             mount_path = "/etc/nginx/conf.d"
             read_only  = true
+          }
+          volume_mount {
+            name = "nginx-storage"
+            mount_path = "/var/www/html"
           }
           liveness_probe {
             http_get {
@@ -236,6 +257,20 @@ resource "kubernetes_deployment" "mastodon-nginx" {
           name = "nginx"
           config_map {
             name = kubernetes_config_map.mastodon-nginx.metadata[0].name
+          }
+        }
+
+      }
+    }
+    volume_claim_template {
+      metadata {
+        name = "nginx-storage"
+      }
+      spec {
+        access_modes = ["ReadWriteOnce"]
+        resources {
+          requests = {
+            storage = "1Gi"
           }
         }
       }
