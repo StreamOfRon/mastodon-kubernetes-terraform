@@ -1,5 +1,5 @@
 locals {
-  mastodon_image_identifier       = "tootsuite/mastodon"
+  mastodon_image_identifier       = "tootsuite/mastodon:v4.1.4"
   nginx_instance_count            = 1
   web_instance_count              = 1
   streaming_instance_count        = 1
